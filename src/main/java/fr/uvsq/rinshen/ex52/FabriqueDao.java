@@ -19,15 +19,23 @@ public class FabriqueDao {
 		return null;
 	}
 	
-	public static void initBdd(Statement db) {
+	public static void initTelephone(Statement db) {
 		try {
 			db.executeUpdate("create table telephone ("
 					+ "num varchar(10) primary key, "
 					+ "nom varchar(30), "
 					+ "prenom varchar(30))");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void initPersonnel(Statement db) {
+		try {
 			db.executeUpdate("create table personnel ("
-					+ "nom varchar(30) primary key, "
-					+ "prenom varchar(30), primary key"
+					+ "id int primary key, "
+					+ "nom varchar(30), "
+					+ "prenom varchar(30), "
 					+ "fonction varchar(30), "
 					+ "dateNaissance date)");
 		} catch (SQLException e) {
@@ -35,18 +43,36 @@ public class FabriqueDao {
 		}
 	}
 	
-	public static void effaceBdd(Statement db) {
+	public static void initBdd(Statement db) {
+		initTelephone(db);
+		initPersonnel(db);
+	}
+	
+	public static void effaceTelephone(Statement db) {
 		try {
 			db.executeUpdate("Drop table telephone");
-			db.executeUpdate("Drop table personnel");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public static void effacePersonnel(Statement db) {
+		try {
+			db.executeUpdate("Drop table Personnel");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void effaceBdd(Statement db) {
+		effaceTelephone(db);
+		effacePersonnel(db);
+	}
+	
 	public static void resetBdd(Statement db) {
-		initBdd(db);
 		effaceBdd(db);
+		initBdd(db);
+		System.out.println("Reset de la base de données");
 	}
 	
 	public static GroupeCompositeDao creerCompositeDao() {

@@ -21,7 +21,6 @@ public class TelephoneDao{
 						+ obj.getPrenom() + "')");
 			}
 		} catch (SQLException e) {
-			System.out.println("Erreur dans la création de la base de deonnées");
 			e.printStackTrace();
 		}
 	}
