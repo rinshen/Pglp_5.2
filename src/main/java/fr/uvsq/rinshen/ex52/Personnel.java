@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 public final class Personnel implements Serializable {
 	private static final long serialVersionUID = -7650298502994864573L;
+	private static int compteur = 0;
+	private int id;
 	private final String nom;
 	private final String prenom;
 	private final String fonction;
 	private final LocalDate dateNaissance;
-	private final ArrayList<String> numTelephone;
+	private ArrayList<String> numTelephone;
 
 	public static class Builder {
 		private String nom;
@@ -52,6 +54,11 @@ public final class Personnel implements Serializable {
 		public Personnel build() {
 			return new Personnel(this);
 		}
+
+		public Builder date_naissance(LocalDate date) {
+			dateNaissance = date;
+			return this;
+		}
 	}
 
 	/**
@@ -59,6 +66,8 @@ public final class Personnel implements Serializable {
      * @param builder -> Builder permettant l'initialisaton de la classe
      */
 	public Personnel(Builder builder) {
+		compteur ++;
+		id = compteur;
 		nom = builder.nom;
 		prenom = builder.prenom;
 		fonction = builder.fonction;
@@ -89,6 +98,10 @@ public final class Personnel implements Serializable {
 	public void ajouteTelephone(String num) {
 		numTelephone.add(num);
 	}
+	
+	public void setTelephone(ArrayList<String> liste) {
+		numTelephone = liste;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -112,5 +125,9 @@ public final class Personnel implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

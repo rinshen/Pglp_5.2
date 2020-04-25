@@ -1,7 +1,7 @@
 package fr.uvsq.rinshen.ex52;
 
 interface DataAccessObject<T> {
-	public abstract void ecrire(T obj, String fichier);
+	public abstract void ecrire(T obj);
 
-	public abstract T lire(String fichier);
+	public abstract T lire(int id);
 }

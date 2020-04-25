@@ -9,29 +9,34 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Calendar;
 
 public class PersonnelDao implements DataAccessObject<Personnel> {
-	public PersonnelDao() {
-		;
+	private Statement db;
+	
+	public PersonnelDao(Statement database) {
+		db = database;
 	}
 
 	/**
-     * Fonction permettant l'écriture d'une personne dans un fichier.
-     * @param obj -> Personne à sérialiser
-     * @param fichier -> Nom du Fichier dans lequel l'objet sera enregistré
+     * Fonction permettant l'enregistrement d'une personne dans la base de données.
+     * @param obj -> Personne à enregistrer
      */
-	public void ecrire(Personnel obj, String fichier) {
+	public void ecrire(Personnel obj) {
 		try {
-			ObjectOutputStream sortie;
-			sortie = new ObjectOutputStream(new BufferedOutputStream(
-					new FileOutputStream(new File(fichier))));
-			sortie.writeObject(obj);
-			sortie.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Fichier introuvable");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Erreur d'écriture");
+			db.executeUpdate("insert into personnel values ('"
+					+ obj.getNom() + "','"
+					+ obj.getPrenom() + "','"
+					+ obj.getFonction() + "','"
+					+ obj.getDateNaissance() + "')");
+			FabriqueDao.creerTelephoneDao().ecrire(obj);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -40,24 +45,22 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
      * Fonction permettant la lecture d'un fichier contenant une personne.
      * @param fichier -> nom du fichier contenant les données
      */
-	public Personnel lire(String fichier) {
+	public Personnel lire(int id) {
 		Personnel p = null;
+		ResultSet table;
 		try {
-			ObjectInputStream entree;
-			entree = new ObjectInputStream(new BufferedInputStream(
-					new FileInputStream(new File(fichier))));
-			p = (Personnel)entree.readObject();
-			entree.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Fichier introuvable");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Erreur de lecture");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.println("Fichier incorrect");
+			table = db.executeQuery("select * from personnel "
+					+ "where id = "
+					+ id);
+			p = new Personnel.Builder(table.getString("nom"), table.getString("prenom"))
+					.date_naissance(table.getDate("dateNaissance").toLocalDate())
+					.fonction(table.getString("fonction"))
+					.build();
+			p.setTelephone(FabriqueDao.creerTelephoneDao().lire(p));
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return p;
 	}
 }
