@@ -28,10 +28,11 @@ public class TestPersonnelDao {
 		p1.ajouteTelephone("0563251478");
 
 		dao.ecrire(p1);
-		test = dao.lire(p1);
+		test = dao.lire(p1.getId());
 		assertEquals(p1.getNumTelephone(), test);
 	}
 
+	@Test
 	public void testEcriturePersonnel() {
 		Personnel p1 = new Personnel.Builder("Beleyan", "Sofia")
 				.date_naissance(26, Month.JANUARY, 1997)

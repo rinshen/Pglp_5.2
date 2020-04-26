@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class FabriqueDao {
 	public static Statement connexion() {
 		try {
-			String url="jdbc:derby:./database/personnel;create=true";
+			String url = "jdbc:derby:./database/personnel;create=true";
 			Connection c = DriverManager.getConnection(url);
 			Statement db = c.createStatement();
 			return db;
@@ -23,8 +23,7 @@ public class FabriqueDao {
 		try {
 			db.executeUpdate("create table telephone ("
 					+ "num varchar(10) primary key, "
-					+ "nom varchar(30), "
-					+ "prenom varchar(30))");
+					+ "id int)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

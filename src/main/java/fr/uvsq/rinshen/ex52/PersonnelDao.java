@@ -30,7 +30,8 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
      */
 	public void ecrire(Personnel obj) {
 		try {
-			db.executeUpdate("insert into personnel values ('"
+			db.executeUpdate("insert into personnel values ("
+					+ obj.getId() + ",'"
 					+ obj.getNom() + "','"
 					+ obj.getPrenom() + "','"
 					+ obj.getFonction() + "','"
@@ -42,21 +43,24 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 	}
 
 	/**
-     * Fonction permettant la lecture d'un fichier contenant une personne.
-     * @param fichier -> nom du fichier contenant les données
+     * Fonction permettant la lecture de la table personnel.
+     * @param id -> identifiant de la personne à chercher dans la base
      */
 	public Personnel lire(int id) {
 		Personnel p = null;
 		ResultSet table;
 		try {
+			
 			table = db.executeQuery("select * from personnel "
 					+ "where id = "
 					+ id);
-			p = new Personnel.Builder(table.getString("nom"), table.getString("prenom"))
-					.date_naissance(table.getDate("dateNaissance").toLocalDate())
-					.fonction(table.getString("fonction"))
+			System.out.println(table.next());
+			p = new Personnel.Builder(table.getString(2), table.getString(3))
+					.date_naissance(table.getDate(5).toLocalDate())
+					.fonction(table.getString(4))
+					.id(id)
 					.build();
-			p.setTelephone(FabriqueDao.creerTelephoneDao().lire(p));
+			p.setTelephone(FabriqueDao.creerTelephoneDao().lire(id));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

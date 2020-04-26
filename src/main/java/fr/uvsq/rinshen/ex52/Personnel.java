@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 public final class Personnel implements Serializable {
 	private static final long serialVersionUID = -7650298502994864573L;
-	private static int compteur = 0;
-	private int id;
+	private final int id;
 	private final String nom;
 	private final String prenom;
 	private final String fonction;
@@ -21,6 +20,8 @@ public final class Personnel implements Serializable {
 		private String fonction;
 		private LocalDate dateNaissance;
 		private ArrayList<String> numTelephone;
+		private static int compteur = 0;
+		private int id;
 
 		/**
 	     * Constructeur du builder de la classe personnel.
@@ -30,7 +31,8 @@ public final class Personnel implements Serializable {
 		public Builder(String nom1, String nom2) {
 			nom = nom1;
 			prenom = nom2;
-
+			id = compteur;
+			compteur++;
 			fonction = "non spécifiée";
 			dateNaissance = LocalDate.of(0, Month.JANUARY, 1);
 			numTelephone = new ArrayList<String>();
@@ -46,6 +48,16 @@ public final class Personnel implements Serializable {
 			return this;
 		}
 
+		public Builder date_naissance(LocalDate date) {
+			dateNaissance = date;
+			return this;
+		}
+		 
+		public Builder id(int identifiant) {
+			id=identifiant;
+			return this;
+		}
+
 		public Builder num_telephone(String numero) {
 			numTelephone.add(numero);
 			return this;
@@ -54,11 +66,6 @@ public final class Personnel implements Serializable {
 		public Personnel build() {
 			return new Personnel(this);
 		}
-
-		public Builder date_naissance(LocalDate date) {
-			dateNaissance = date;
-			return this;
-		}
 	}
 
 	/**
@@ -66,8 +73,7 @@ public final class Personnel implements Serializable {
      * @param builder -> Builder permettant l'initialisaton de la classe
      */
 	public Personnel(Builder builder) {
-		compteur ++;
-		id = compteur;
+		id = builder.id;
 		nom = builder.nom;
 		prenom = builder.prenom;
 		fonction = builder.fonction;
@@ -122,6 +128,9 @@ public final class Personnel implements Serializable {
 			return false;
 		}
 		if (!this.dateNaissance.equals(test.getDateNaissance())) {
+			return false;
+		}
+		if(this.id!=test.getId()) {
 			return false;
 		}
 		return true;
