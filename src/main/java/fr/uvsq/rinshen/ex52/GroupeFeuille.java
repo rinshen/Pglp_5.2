@@ -5,6 +5,7 @@ public class GroupeFeuille extends Groupe {
 
 	public GroupeFeuille() {
 		super();
+		idType = 2;
 	}
 	
 	@Override

@@ -44,6 +44,7 @@ public class TestPersonnelDao {
 		
 		dao.ecrire(p1);
 		p2 = dao.lire(p1.getId());
+		dao.fermeture();
 		assertEquals(p1, p2);
 	}
 }

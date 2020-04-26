@@ -54,7 +54,7 @@ public final class Personnel implements Serializable {
 		}
 		 
 		public Builder id(int identifiant) {
-			id=identifiant;
+			id = identifiant;
 			return this;
 		}
 
@@ -130,7 +130,7 @@ public final class Personnel implements Serializable {
 		if (!this.dateNaissance.equals(test.getDateNaissance())) {
 			return false;
 		}
-		if(this.id!=test.getId()) {
+		if (this.id != test.getId()) {
 			return false;
 		}
 		return true;

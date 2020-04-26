@@ -11,6 +11,7 @@ public class GroupeComposite extends Groupe {
 	
 	public GroupeComposite() {
 		super();
+		idType = 1;
 		sousGroupes = new ArrayList<Groupe>();
 	}
 	

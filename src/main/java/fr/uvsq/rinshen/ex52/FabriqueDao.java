@@ -42,9 +42,42 @@ public class FabriqueDao {
 		}
 	}
 	
+	public static void initType(Statement db) {
+		try {
+			db.executeUpdate("create table typeGroupe ("
+					+ "id int primary key, "
+					+ "type int)");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void initFeuille(Statement db) {
+		try {
+			db.executeUpdate("create table feuille ("
+					+ "idPersonnel int primary key, "
+					+ "idGroupe int)");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void initComposite(Statement db) {
+		try {
+			db.executeUpdate("create table composite ("
+					+ "idFeuille int primary key, "
+					+ "idComposite int)");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void initBdd(Statement db) {
 		initTelephone(db);
 		initPersonnel(db);
+		initFeuille(db);
+		initComposite(db);
+		initType(db);
 	}
 	
 	public static void effaceTelephone(Statement db) {
@@ -57,7 +90,31 @@ public class FabriqueDao {
 	
 	public static void effacePersonnel(Statement db) {
 		try {
-			db.executeUpdate("Drop table Personnel");
+			db.executeUpdate("Drop table personnel");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void effaceType(Statement db) {
+		try {
+			db.executeUpdate("Drop table typeGroupe");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void effaceFeuille(Statement db) {
+		try {
+			db.executeUpdate("Drop table feuille");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void effaceComposite(Statement db) {
+		try {
+			db.executeUpdate("Drop table composite");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +123,9 @@ public class FabriqueDao {
 	public static void effaceBdd(Statement db) {
 		effaceTelephone(db);
 		effacePersonnel(db);
+		effaceFeuille(db);
+		effaceComposite(db);
+		effaceType(db);
 	}
 	
 	public static void resetBdd(Statement db) {

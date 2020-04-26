@@ -1,21 +1,8 @@
 package fr.uvsq.rinshen.ex52;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.Calendar;
 
 public class PersonnelDao implements DataAccessObject<Personnel> {
 	private Statement db;
@@ -44,7 +31,8 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 
 	/**
      * Fonction permettant la lecture de la table personnel.
-     * @param id -> identifiant de la personne à chercher dans la base
+     * @param id -> Identifiant de la personne à chercher dans la bdd
+     * @return Objet personnel initialisé avec les valeurs trouvées dans la bdd
      */
 	public Personnel lire(int id) {
 		Personnel p = null;
@@ -54,7 +42,7 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 			table = db.executeQuery("select * from personnel "
 					+ "where id = "
 					+ id);
-			System.out.println(table.next());
+			table.next();
 			p = new Personnel.Builder(table.getString(2), table.getString(3))
 					.date_naissance(table.getDate(5).toLocalDate())
 					.fonction(table.getString(4))
@@ -64,7 +52,14 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return p;
+	}
+	
+	public void fermeture(){
+		try {
+			db.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

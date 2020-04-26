@@ -1,14 +1,7 @@
 package fr.uvsq.rinshen.ex52;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class GroupeFeuilleDao implements DataAccessObject<GroupeFeuille> {
@@ -19,20 +12,54 @@ public class GroupeFeuilleDao implements DataAccessObject<GroupeFeuille> {
 	}
 
 	/**
-     * Fonction permettant l'écriture d'un groupe dans un fichier.
-     * @param obj -> Groupe à sérialiser
-     * @param fichier -> Nom du Fichier dans lequel l'objet sera enregistré
+     * Fonction permettant l'enregistrement d'un groupe dans la base de données.
+     * @param obj -> Groupe à enregistrer
      */
 	public void ecrire(GroupeFeuille obj) {
-		
+		try {
+			for (int i = 0; i < obj.getMembres().size(); i++) {
+				System.out.println("1 écriture de :" + obj.getMembres().get(i).getId() + "," + obj.getId());
+				db.executeUpdate("insert into feuille values ("
+						+ obj.getMembres().get(i).getId() + ","
+						+ obj.getId() + ")");
+				FabriqueDao.creerPersonnelDao().ecrire(obj.getMembres().get(i));
+				System.out.println("2 écriture de :" + obj.getMembres().get(i).getId() + "," + obj.getId());
+				/*db.executeUpdate("insert into typeGroupe values ("
+						+ obj.getId() + ","
+						+ obj.getIdType() + ")");*/
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-     * Fonction permettant la lecture d'un fichier contenant un groupe de personnels.
-     * @param fichier -> nom du fichier contenant les données
+     * Fonction permettant de récupérer un groupe dans la base de données.
+     * @param id -> id du groupe à récupérer
      */
 	public GroupeFeuille lire(int id) {
-		GroupeFeuille g = null;
+		GroupeFeuille g = new GroupeFeuille();
+		Personnel p;
+		try {
+			ResultSet table = db.executeQuery("select idPersonnel from feuille "
+					+ "where idGroupe = "
+					+ id);
+			//System.out.println("Table du groupe :"+table.next());
+			while (table.next()) {
+				p = FabriqueDao.creerPersonnelDao().lire(table.getInt(1));
+				g.ajouteMembre(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return g;
+	}
+
+	public void fermeture(){
+		try {
+			db.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

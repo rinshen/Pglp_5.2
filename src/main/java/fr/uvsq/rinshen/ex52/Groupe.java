@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public abstract class Groupe implements Serializable {
 	private static final long serialVersionUID = -1072913158732325451L;
 	private static int compteur = 0;
+	protected int idType = 0;
 	private int id;
 	private ArrayList<Personnel> membres;
 	
@@ -28,5 +29,9 @@ public abstract class Groupe implements Serializable {
 
 	public int getId() {
 		return id;
+	}
+
+	public int getIdType() {
+		return idType;
 	}
 }
