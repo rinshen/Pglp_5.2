@@ -11,26 +11,47 @@ public class GroupeCompositeDao implements DataAccessObject<GroupeComposite> {
 		db = database;
 	}
 
+	public void ecrireMembres(GroupeComposite obj) {
+		for (int i = 0; i < obj.getMembres().size(); i++) {
+				FabriqueDao.creerPersonnelDao().ecrire(obj.getMembres().get(i));
+		}
+	}
+	
+	public void ecrireGroupes(GroupeComposite obj) {
+		for (int i = 0; i < obj.getSousGroupes().size(); i++) {
+			if(obj.getSousGroupes().get(i).getIdType() == 1) {
+				try {
+					db.executeUpdate("insert into composite values ("
+							+ obj.getSousGroupes().get(i).getId() + ","
+							+ obj.getId() + ")");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				FabriqueDao.creerCompositeDao().ecrire((GroupeComposite) obj.getSousGroupes().get(i));
+			}
+			if(obj.getSousGroupes().get(i).getIdType() == 2) {
+				try {
+					db.executeUpdate("insert into composite values ("
+							+ obj.getSousGroupes().get(i).getId() + ","
+							+ obj.getId() + ")");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				FabriqueDao.creerFeuilleDao().ecrire((GroupeFeuille) obj.getSousGroupes().get(i));
+			}
+		}
+	}
+	
 	/**
      * Fonction permettant l'enregistrement d'un groupe composite dans la base de données.
      * @param obj -> Groupe à enregistrer
      */
 	public void ecrire(GroupeComposite obj) {
-		try {
-			for (int i = 0; i < obj.getMembres().size(); i++) {
-				db.executeUpdate("insert into feuille values ("
-						+ obj.getMembres().get(i).getId() + ","
-						+ obj.getId() + ")");
-				db.executeUpdate("insert into composite values ("
-						+ obj.getSousGroupes().get(i).getId() + ","
-						+ obj.getId() + ")");
-				/*db.executeUpdate("insert into typeGroupe values ("
-						+ obj.getId() + ","
-						+ obj.getIdType() + ")");*/
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		ecrireMembres(obj);
+		ecrireGroupes(obj);
+		/*db.executeUpdate("insert into typeGroupe values ("
+				+ obj.getId() + ","
+				+ obj.getIdType() + ")");*/
 	}
 
 	/**
@@ -45,9 +66,13 @@ public class GroupeCompositeDao implements DataAccessObject<GroupeComposite> {
 			ResultSet table;
 			table = db.executeQuery("select idFeuille from composite "
 					+ "where idComposite = "
-					+ id);
+					+ id
+					);
+			System.out.println("Id du composite: " + id);
+			//System.out.println(table.next());
 			while (table.next()) {
 				gtmp = FabriqueDao.creerFeuilleDao().lire(table.getInt(1));
+				System.out.println("id trouvés dans la table :" + table.getInt(1));
 				g.ajouteGroupe(gtmp);
 			}
 			table = db.executeQuery("select idPersonnel from feuille "
@@ -63,11 +88,12 @@ public class GroupeCompositeDao implements DataAccessObject<GroupeComposite> {
 		return g;
 	}
 	
-	public void fermeture(){
+	/*public void fermeture(){
 		try {
+			db.getConnection().close();
 			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

@@ -14,7 +14,7 @@ public class TestGroupeCompositeDao {
 	}
 	
 	@Test
-	public void test() {
+	public void testEcrireComposite() {
 		Personnel p4 = new Personnel.Builder("Rogg","Waldric")
 				.date_naissance(15, Month.JULY, 1996)
 				.fonction("Docteur")
@@ -52,7 +52,8 @@ public class TestGroupeCompositeDao {
 		GroupeCompositeDao dao = FabriqueDao.creerCompositeDao();
 		dao.ecrire(c1);
 		c2 = dao.lire(c1.getId());
-		
-		assertEquals(c1, c2);
+		c1.getSousGroupes().get(0);
+		c2.getSousGroupes().get(0);
+		assertEquals(c1.getSousGroupes().get(0), c2.getSousGroupes().get(0));
 	}
 }

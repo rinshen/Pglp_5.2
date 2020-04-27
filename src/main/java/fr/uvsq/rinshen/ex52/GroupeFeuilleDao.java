@@ -18,15 +18,10 @@ public class GroupeFeuilleDao implements DataAccessObject<GroupeFeuille> {
 	public void ecrire(GroupeFeuille obj) {
 		try {
 			for (int i = 0; i < obj.getMembres().size(); i++) {
-				System.out.println("1 écriture de :" + obj.getMembres().get(i).getId() + "," + obj.getId());
 				db.executeUpdate("insert into feuille values ("
 						+ obj.getMembres().get(i).getId() + ","
 						+ obj.getId() + ")");
 				FabriqueDao.creerPersonnelDao().ecrire(obj.getMembres().get(i));
-				System.out.println("2 écriture de :" + obj.getMembres().get(i).getId() + "," + obj.getId());
-				/*db.executeUpdate("insert into typeGroupe values ("
-						+ obj.getId() + ","
-						+ obj.getIdType() + ")");*/
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,11 +50,12 @@ public class GroupeFeuilleDao implements DataAccessObject<GroupeFeuille> {
 		return g;
 	}
 
-	public void fermeture(){
+	/*public void fermeture(){
 		try {
+			db.getConnection().close();
 			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

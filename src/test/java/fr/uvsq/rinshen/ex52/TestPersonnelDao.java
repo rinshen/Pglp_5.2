@@ -21,8 +21,6 @@ public class TestPersonnelDao {
 		ArrayList<String> test;
 		TelephoneDao dao = FabriqueDao.creerTelephoneDao();
 		Personnel p1 = new Personnel.Builder("Beleyan", "Sofia")
-				.date_naissance(26, Month.JANUARY, 1997)
-				.fonction("Indéfinie")
 				.num_telephone("0655892225")
 				.build();
 		p1.ajouteTelephone("0563251478");
@@ -37,7 +35,7 @@ public class TestPersonnelDao {
 		Personnel p1 = new Personnel.Builder("Beleyan", "Sofia")
 				.date_naissance(26, Month.JANUARY, 1997)
 				.fonction("Indéfinie")
-				.num_telephone("0655892225")
+				.num_telephone("0655892225")	
 				.build();
 		Personnel p2 = null;
 		PersonnelDao dao = FabriqueDao.creerPersonnelDao();

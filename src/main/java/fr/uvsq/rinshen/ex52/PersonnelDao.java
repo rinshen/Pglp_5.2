@@ -57,6 +57,7 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 	
 	public void fermeture(){
 		try {
+			db.getConnection().close();
 			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

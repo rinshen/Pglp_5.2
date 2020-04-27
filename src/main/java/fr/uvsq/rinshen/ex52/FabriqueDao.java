@@ -131,7 +131,6 @@ public class FabriqueDao {
 	public static void resetBdd(Statement db) {
 		effaceBdd(db);
 		initBdd(db);
-		System.out.println("Reset de la base de données");
 	}
 	
 	public static GroupeCompositeDao creerCompositeDao() {

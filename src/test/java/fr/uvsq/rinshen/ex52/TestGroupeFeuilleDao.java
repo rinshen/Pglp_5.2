@@ -33,7 +33,6 @@ public class TestGroupeFeuilleDao {
 		GroupeFeuilleDao dao = FabriqueDao.creerFeuilleDao();
 		dao.ecrire(g1);
 		g2 = dao.lire(g1.getId());
-		dao.fermeture();
 
 		assertEquals(g1, g2);
 	}
