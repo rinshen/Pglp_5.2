@@ -49,13 +49,39 @@ public class GroupeFeuilleDao implements DataAccessObject<GroupeFeuille> {
 		}
 		return g;
 	}
+	
+	public void supprimerRecursif(int id) {
+		try {
+			ResultSet liste = db.executeQuery("select idPersonnel from feuille "
+					+ "where idGroupe = "
+					+ id);
+			while(liste.next()) {
+				FabriqueDao.creerPersonnelDao().supprimer(liste.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			db.executeUpdate("delete from feuille where idGroupe = " + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-	/*public void fermeture(){
+	public void supprimer(int id) {
+		try {
+			db.executeUpdate("delete from feuille where idGroupe = " + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void fermeture(){
 		try {
 			db.getConnection().close();
 			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 }

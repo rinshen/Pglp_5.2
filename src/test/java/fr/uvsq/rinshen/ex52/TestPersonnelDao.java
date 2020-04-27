@@ -16,7 +16,7 @@ public class TestPersonnelDao {
 		FabriqueDao.resetBdd(FabriqueDao.connexion());
 	}
 	
-	@Test
+	//@Test
 	public void testEcritureTelephone() {
 		ArrayList<String> test;
 		TelephoneDao dao = FabriqueDao.creerTelephoneDao();
@@ -30,7 +30,7 @@ public class TestPersonnelDao {
 		assertEquals(p1.getNumTelephone(), test);
 	}
 
-	@Test
+	//@Test
 	public void testEcriturePersonnel() {
 		Personnel p1 = new Personnel.Builder("Beleyan", "Sofia")
 				.date_naissance(26, Month.JANUARY, 1997)

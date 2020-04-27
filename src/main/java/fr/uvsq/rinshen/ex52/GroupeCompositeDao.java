@@ -68,11 +68,9 @@ public class GroupeCompositeDao implements DataAccessObject<GroupeComposite> {
 					+ "where idComposite = "
 					+ id
 					);
-			System.out.println("Id du composite: " + id);
 			//System.out.println(table.next());
 			while (table.next()) {
 				gtmp = FabriqueDao.creerFeuilleDao().lire(table.getInt(1));
-				System.out.println("id trouvés dans la table :" + table.getInt(1));
 				g.ajouteGroupe(gtmp);
 			}
 			table = db.executeQuery("select idPersonnel from feuille "
@@ -88,12 +86,20 @@ public class GroupeCompositeDao implements DataAccessObject<GroupeComposite> {
 		return g;
 	}
 	
-	/*public void fermeture(){
+	public void supprimer(int id) {
+		try {
+			db.executeUpdate("delete from composite where idComposite = " + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void fermeture(){
 		try {
 			db.getConnection().close();
 			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 }

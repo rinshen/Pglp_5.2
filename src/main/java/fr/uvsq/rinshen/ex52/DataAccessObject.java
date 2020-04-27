@@ -4,4 +4,8 @@ interface DataAccessObject<T> {
 	public abstract void ecrire(T obj);
 
 	public abstract T lire(int id);
+	
+	public abstract void supprimer(int id);
+
+	public abstract void fermeture();
 }

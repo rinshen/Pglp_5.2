@@ -47,4 +47,12 @@ public class TelephoneDao {
 		}
 		return res;
 	}
+	
+	public void supprimer(int id) {
+		try {
+			db.executeUpdate("delete from telephone where id = " + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

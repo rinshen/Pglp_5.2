@@ -55,6 +55,15 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 		return p;
 	}
 	
+	public void supprimer(int id) {
+		try {
+			db.executeUpdate("delete from personnel where id = " + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		FabriqueDao.creerTelephoneDao().supprimer(id);
+	}
+	
 	public void fermeture(){
 		try {
 			db.getConnection().close();
