@@ -1,12 +1,10 @@
 package fr.uvsq.rinshen.ex52;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 
-public final class Personnel implements Serializable {
-	private static final long serialVersionUID = -7650298502994864573L;
+public final class Personnel {
 	private final int id;
 	private final String nom;
 	private final String prenom;
@@ -109,6 +107,11 @@ public final class Personnel implements Serializable {
 		numTelephone = liste;
 	}
 
+	/**
+	 * Fonction d'égalité utilisée pour les tests.
+	 * @param obj -> Objet à comparer
+	 * @return true si les objets ont le même type et les même attributs
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Personnel)) {

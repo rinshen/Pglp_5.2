@@ -10,6 +10,10 @@ import org.junit.Test;
 
 import fr.uvsq.rinshen.ex52.Personnel;
 
+/**
+ * Les tests peuvent être exécutés individuellement mais en faire plusieurs d'affilée provoque
+ * un problème d'accès a la base de données.
+ */
 public class TestPersonnelDao {
 	@Before
 	public void setUp() {

@@ -7,6 +7,10 @@ import java.time.Month;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Les tests peuvent être exécutés individuellement mais en faire plusieurs d'affilée provoque
+ * un problème d'accès a la base de données.
+ */
 public class TestGroupeFeuilleDao {
 	@Before
 	public void setUp() {

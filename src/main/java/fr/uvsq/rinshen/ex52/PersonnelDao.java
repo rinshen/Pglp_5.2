@@ -54,7 +54,20 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 		}
 		return p;
 	}
+
+	/**
+	 * Fonction permettant la modification d'un Personnel déja présent dans la base de données.
+	 * @param obj -> Personnel à modifier
+	 */
+	public void modifier(Personnel obj) {
+		supprimer(obj.getId());
+		ecrire(obj);
+	}
 	
+	/**
+	 * Fonction permettant la suppression d'un Personnel de la base de données.
+	 * @param id -> Identifiant du Personnel à supprimer
+	 */
 	public void supprimer(int id) {
 		try {
 			db.executeUpdate("delete from personnel where id = " + id);
@@ -64,7 +77,11 @@ public class PersonnelDao implements DataAccessObject<Personnel> {
 		FabriqueDao.creerTelephoneDao().supprimer(id);
 	}
 	
-	public void fermeture(){
+	/**
+	 * Fonction permettant la fermeture de la connection à la base de données 
+	 * et la libération des ressources.
+	 */
+	public void fermeture() {
 		try {
 			db.getConnection().close();
 			db.close();

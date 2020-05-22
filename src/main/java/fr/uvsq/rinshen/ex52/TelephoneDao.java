@@ -5,6 +5,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Classe Permettant l'enregistrement des numéros de téléphone d'un Personnel.
+ * Elle n'implémente pas l'interface DataAccessObjet car elle manipule à la
+ * fois des ArrayList et des personnels
+ */
 public class TelephoneDao {
 	private Statement db;
 	
@@ -47,7 +52,20 @@ public class TelephoneDao {
 		}
 		return res;
 	}
+
+	/**
+     * Fonction permettant la modification de la liste des numéros de téléphone d'un personnel.
+     * @param obj -> Propriétaire des numéros
+     */
+	public void modifier(Personnel obj) {
+		supprimer(obj.getId());
+		ecrire(obj);
+	}
 	
+	/**
+     * Fonction permettant suppression des numéros de téléphone d'une personne..
+     * @param id -> Identifiant de la personne propriétaire des numéros
+     */
 	public void supprimer(int id) {
 		try {
 			db.executeUpdate("delete from telephone where id = " + id);

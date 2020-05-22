@@ -5,7 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Classe utilisée pour instancier les DAO et initialiser la base de données.
+ * @author khanj
+ *
+ */
 public class FabriqueDao {
+	/**
+	 * Charge la base de données.
+	 * @return Statement pointant sur la base de données
+	 */
 	public static Statement connexion() {
 		try {
 			String url = "jdbc:derby:./database/personnel;create=true";
@@ -18,7 +27,11 @@ public class FabriqueDao {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Déclaration de la table telephone.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void initTelephone(Statement db) {
 		try {
 			db.executeUpdate("create table telephone ("
@@ -28,7 +41,11 @@ public class FabriqueDao {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Déclaration de la table personnel.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void initPersonnel(Statement db) {
 		try {
 			db.executeUpdate("create table personnel ("
@@ -41,7 +58,11 @@ public class FabriqueDao {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Déclaration de la table typeGroupe.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void initType(Statement db) {
 		try {
 			db.executeUpdate("create table typeGroupe ("
@@ -51,7 +72,11 @@ public class FabriqueDao {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Déclaration de la table feuille.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void initFeuille(Statement db) {
 		try {
 			db.executeUpdate("create table feuille ("
@@ -62,6 +87,10 @@ public class FabriqueDao {
 		}
 	}
 	
+	/**
+	 * Déclaration de la table composite.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void initComposite(Statement db) {
 		try {
 			db.executeUpdate("create table composite ("
@@ -72,6 +101,10 @@ public class FabriqueDao {
 		}
 	}
 	
+	/**
+	 * Initialise la base de données.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void initBdd(Statement db) {
 		initTelephone(db);
 		initPersonnel(db);
@@ -80,6 +113,11 @@ public class FabriqueDao {
 		initType(db);
 	}
 	
+
+	/**
+	 * Efface la table telephone.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void effaceTelephone(Statement db) {
 		try {
 			db.executeUpdate("Drop table telephone");
@@ -87,7 +125,11 @@ public class FabriqueDao {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Efface la table personnel.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void effacePersonnel(Statement db) {
 		try {
 			db.executeUpdate("Drop table personnel");
@@ -95,7 +137,11 @@ public class FabriqueDao {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Efface la table typeGroupe.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void effaceType(Statement db) {
 		try {
 			db.executeUpdate("Drop table typeGroupe");
@@ -103,7 +149,11 @@ public class FabriqueDao {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Efface la table feuille.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void effaceFeuille(Statement db) {
 		try {
 			db.executeUpdate("Drop table feuille");
@@ -112,6 +162,10 @@ public class FabriqueDao {
 		}
 	}
 	
+	/**
+	 * Efface la table composite.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void effaceComposite(Statement db) {
 		try {
 			db.executeUpdate("Drop table composite");
@@ -120,6 +174,10 @@ public class FabriqueDao {
 		}
 	}
 	
+	/**
+	 * Efface le contenu de la base de données.
+	 * @param db -> Statement pointant sur la base de données à modifier
+	 */
 	public static void effaceBdd(Statement db) {
 		effaceTelephone(db);
 		effacePersonnel(db);
@@ -128,26 +186,46 @@ public class FabriqueDao {
 		effaceType(db);
 	}
 	
+	/**
+	 * Efface la base de données et en recrée une complètment vide.
+	 * @param db -> Statement pointant sur la base de données à réinitialiser
+	 */
 	public static void resetBdd(Statement db) {
 		effaceBdd(db);
 		initBdd(db);
 	}
 	
+	/**
+	 * Instanciation d'un GroupeCompositeDao.
+	 * @return GroupeCompositeDao initialisé
+	 */
 	public static GroupeCompositeDao creerCompositeDao() {
 		Statement db = FabriqueDao.connexion();
 		return new GroupeCompositeDao(db);
 	}
-	
+
+	/**
+	 * Instanciation d'un GroupeFeuilleDao.
+	 * @return GroupeFeuilleDao initialisé
+	 */
 	public static GroupeFeuilleDao creerFeuilleDao() {
 		Statement db = FabriqueDao.connexion();
 		return new GroupeFeuilleDao(db);
 	}
-	
+
+	/**
+	 * Instanciation d'un PersonnelDao.
+	 * @return PersonnelDao initialisé
+	 */
 	public static PersonnelDao creerPersonnelDao() {
 		Statement db = FabriqueDao.connexion();
 		return new PersonnelDao(db);
 	}
-	
+
+	/**
+	 * Instanciation d'un TelephoneDao.
+	 * @return TelephoneDao initialisé
+	 */
 	public static TelephoneDao creerTelephoneDao() {
 		Statement db = FabriqueDao.connexion();
 		return new TelephoneDao(db);

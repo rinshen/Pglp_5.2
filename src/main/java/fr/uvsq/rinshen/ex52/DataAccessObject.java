@@ -6,6 +6,8 @@ interface DataAccessObject<T> {
 	public abstract T lire(int id);
 	
 	public abstract void supprimer(int id);
+	
+	public abstract void modifier(T obj);
 
 	public abstract void fermeture();
 }
